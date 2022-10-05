@@ -7,7 +7,7 @@ const createCollab = new CreateCollabController();
 
 collabRoutes.use(userAuthenticated);
 
-collabRoutes.post('/:user_id/:task_id', createCollab.handle);
+collabRoutes.post('/:user_id', createCollab.handle);
 collabRoutes.delete('/:user_id/:collab_id');
 
 export { collabRoutes }

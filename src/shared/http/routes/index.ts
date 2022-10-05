@@ -2,7 +2,7 @@ import { Router } from "express";
 import { projectsRoutes } from "../../../projects/routes/projectsRoutes";
 import { collabRoutes } from '../../../collaborators/routes/collabRoutes';
 import { userRouter } from '../../../users/routes/userRoutes';
-import { taskRoutes } from "src/tasks/routes/taskRoutes";
+import { taskRoutes } from "../../../tasks/routes/taskRoutes";
 
 const routes = Router();
 
