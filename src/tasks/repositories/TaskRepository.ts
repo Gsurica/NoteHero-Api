@@ -14,7 +14,40 @@ export class TaskRepository implements ITaskRepository {
         },
         description,
       },
-    });
+      select: {
+        name: true,
+        id: true,
+        collaborator: {
+          select: {
+            id: true,
+            name: true,
+            created_at: true,
+            delete_at: true,
+            managers: true,
+            taskId: true,
+            tasks: true,
+            updated_at: true,
+        },
+      },
+      project: {
+        select: {
+          id: true,
+          name: true,
+          tasks: true,
+          user: true,
+          userId: true,
+          created_at: true,
+          delete_at: true,
+          updated_at: true,
+        }
+      },
+      projectId: true,
+      description: true,
+      created_at: true,
+      delete_at: true,
+      updated_at: true,
+    }});
+    return task;
   }
   async delete({ task_id }: DeleteTaskDTO): Promise<void> {
     throw new Error("Method not implemented.");

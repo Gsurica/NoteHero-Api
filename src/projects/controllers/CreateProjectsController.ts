@@ -6,10 +6,13 @@ export class CreateProjectController {
   async handle(request: Request, response: Response): Promise<Response> {
     const createProjectService = new CreateProjectService(new ProjectRepository());
     const { user_id } = request.params;
-    const { name } = request.body;
+    const { name, description, task_name } = request.body;
     const project = await createProjectService.execute({
       name,
-      user_id
+      user_id,
+    }, {
+      description,
+      task_name
     });
     return response.status(201).json(project);
   }

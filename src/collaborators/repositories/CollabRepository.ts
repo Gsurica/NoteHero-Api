@@ -17,7 +17,7 @@ export class CollabRepository implements ICollabRepository{
     });
   }
 
-  async create({ name, user_id, task_id }: CreateCollabDTO): Promise<Collaborator> {
+  async create({ name, user_id }: CreateCollabDTO): Promise<Collaborator> {
 
     const collab = await database.collaborator.create({
       data: {
@@ -27,11 +27,6 @@ export class CollabRepository implements ICollabRepository{
             id: user_id
           }
         },
-        tasks: {  
-          connect: {
-            id: task_id
-          }
-        }
       },
       select: {
         name: true,
@@ -41,8 +36,10 @@ export class CollabRepository implements ICollabRepository{
         id: true,
         delete_at: true,
         tasks: true,
+        taskId: true,
       }
     });
-    return collab;
+    
+    return collab
   }
 }

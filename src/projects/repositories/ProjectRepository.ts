@@ -1,8 +1,50 @@
 import { Project } from "@prisma/client";
 import { database } from "../../shared/database";
-import { CreateProjectDTO, DeleteProjectDTO, FindProjectBynNameDTO, FindProjectDTO, IProjectRepository, ShowProjectDTO } from "./IProjectRepository";
+import { CreateProjectDTO, CreateTaskDTO, DeleteProjectDTO, FindProjectBynNameDTO, FindProjectDTO, getAllProjectsDTO, IProjectRepository, ShowProjectDTO } from "./IProjectRepository";
 
 export class ProjectRepository implements IProjectRepository{
+
+  async getAll({ user_id }: getAllProjectsDTO): Promise<Project[]> {
+    const projects = await database.project.findMany({
+      where: {
+        userId: user_id
+      },
+      select: {
+        name: true,
+        id: true,
+        created_at: true,
+        delete_at: true,
+        updated_at: true,
+        user: true,
+        userId: true,
+        tasks: {
+          select: {
+            id: true,
+            name: true,
+            created_at: true,
+            delete_at: true,
+            updated_at: true,
+            description: true,
+            collaborator: {
+              select: {
+                id: true,
+                name: true,
+                created_at: true,
+                delete_at: true,
+                updated_at: true,
+                managers: true,
+                tasks: true,
+                taskId: true,
+              }
+            },
+            project: true,
+            projectId: true,
+          }
+        },
+      }
+    });
+    return projects;
+  }
 
   async findById({ project_id }: FindProjectDTO): Promise<Project> {
     const project = await database.project.findUnique({
@@ -22,15 +64,54 @@ export class ProjectRepository implements IProjectRepository{
     return project;
   }
 
-  async create({ name, user_id }: CreateProjectDTO): Promise<Project> {
+  async create({ name, user_id }: CreateProjectDTO, { task_name, description  }: CreateTaskDTO): Promise<Project> {
     const project = await database.project.create({
       data: {
         name,
+        tasks: {
+          create: {
+            name: task_name,
+            description
+          }
+        },
         user: {
           connect: {
             id: user_id
           }
-        }
+        },
+      },
+      select: {
+        name: true,
+        id: true,
+        created_at: true,
+        delete_at: true,
+        updated_at: true,
+        user: true,
+        userId: true,
+        tasks: {
+          select: {
+            id: true,
+            name: true,
+            created_at: true,
+            delete_at: true,
+            updated_at: true,
+            description: true,
+            collaborator: {
+              select: {
+                id: true,
+                name: true,
+                created_at: true,
+                delete_at: true,
+                updated_at: true,
+                managers: true,
+                tasks: true,
+                taskId: true,
+              }
+            },
+            project: true,
+            projectId: true,
+          }
+        },
       }
     });
     return project;
@@ -55,7 +136,30 @@ export class ProjectRepository implements IProjectRepository{
         created_at: true,
         delete_at: true,
         updated_at: true,
-        tasks: true,
+        tasks: {
+          select: {
+            id: true,
+            name: true,
+            created_at: true,
+            delete_at: true,
+            updated_at: true,
+            description: true,
+            collaborator: {
+              select: {
+                id: true,
+                name: true,
+                created_at: true,
+                delete_at: true,
+                updated_at: true,
+                managers: true,
+                tasks: true,
+                taskId: true,
+              }
+            },
+            project: true,
+            projectId: true,
+          }
+        },
         user: true,
         userId: true,
       }
