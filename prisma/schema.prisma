@@ -24,14 +24,15 @@ model User {
 }
 
 model Collaborator {
-  id         String    @id @default(uuid())
-  name       String
-  created_at DateTime  @default(now())
-  updated_at DateTime? @updatedAt
-  delete_at  DateTime?
-  managers   User[]
-  tasks      Task?     @relation(fields: [taskId], references: [id])
-  taskId     String?
+  id           String        @id @default(uuid())
+  name         String
+  created_at   DateTime      @default(now())
+  updated_at   DateTime?     @updatedAt
+  delete_at    DateTime?
+  managers     User[]
+  tasks        Task?         @relation(fields: [taskId], references: [id])
+  taskId       String?
+  timetrackers TimeTracker[]
 
   @@map("collaborators")
 }
@@ -45,6 +46,8 @@ model Project {
   tasks      Task[]
   user       User?     @relation(fields: [userId], references: [id])
   userId     String?
+
+  @@map("projects")
 }
 
 model Task {
@@ -57,4 +60,20 @@ model Task {
   project      Project?       @relation(fields: [projectId], references: [id])
   projectId    String?
   collaborator Collaborator[]
+  timetrackers TimeTracker[]
+
+  @@map("tasks")
+}
+
+model TimeTracker {
+  id             String        @id @default(uuid())
+  startDate      DateTime
+  endDate        DateTime
+  TimeZoneId     String        @db.VarChar(200)
+  task           Task?         @relation(fields: [taskId], references: [id])
+  taskId         String?
+  collaborator   Collaborator? @relation(fields: [collaboratorId], references: [id])
+  collaboratorId String?
+
+  @@map("timetrackers")
 }

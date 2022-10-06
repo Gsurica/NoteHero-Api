@@ -17,8 +17,8 @@ const editTasks = new EditAllDataController();
 taskRoutes.use(userAuthenticated);
 
 taskRoutes.get('/:user_id/:project_id/:task_id', showOneTask.handle);
-taskRoutes.post('/:user_id/:project_id', createNewTask.handle);
-taskRoutes.post('/:user_id/:project_id/:collab_id', createNewTaksWithCollab.handle);
+//taskRoutes.post('/:user_id/:project_id', createNewTask.handle);
+taskRoutes.post('/:user_id/:project_id', createNewTaksWithCollab.handle);
 taskRoutes.patch('/:user_id/:project_id/:task_id', editTasks.handle);
 taskRoutes.delete('/:user_id/:project_id/:task_id', deleteTask.handle);
 
