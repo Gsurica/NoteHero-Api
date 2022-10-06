@@ -48,6 +48,18 @@ export class TaskRepository implements ITaskRepository {
             updated_at: true,
         },
       },
+      timetrackers: {
+        select: {
+          id: true,
+          TimeZoneId: true,
+          startDate: true,
+          endDate: true,
+          task: true,
+          taskId: true,
+          collaborator: true,
+          collaboratorId: true,
+        }
+      },
       project: {
         select: {
           id: true,
@@ -81,7 +93,7 @@ export class TaskRepository implements ITaskRepository {
         description,
         collaborator: {
           connect: {
-            id: collab_id,
+            id: collab_id
           }
         }
       },
@@ -99,6 +111,18 @@ export class TaskRepository implements ITaskRepository {
             tasks: true,
             updated_at: true,
         },
+      },
+      timetrackers: {
+        select: {
+          id: true,
+          TimeZoneId: true,
+          startDate: true,
+          endDate: true,
+          task: true,
+          taskId: true,
+          collaborator: true,
+          collaboratorId: true,
+        }
       },
       project: {
         select: {
