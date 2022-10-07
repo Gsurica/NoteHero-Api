@@ -7,6 +7,6 @@ const timetrackerRoutes = Router();
 const createTimeTracker = new CreateTimeTrackerController();
 
 timetrackerRoutes.use(convertStringToDate);
-timetrackerRoutes.post('/:user_id', createTimeTracker.handle);
+timetrackerRoutes.post('/:user_id/:project_id/:task_id', createTimeTracker.handle);
 
 export { timetrackerRoutes }

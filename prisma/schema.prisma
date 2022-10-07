@@ -69,6 +69,10 @@ model TimeTracker {
   id             String        @id @default(uuid())
   startDate      DateTime
   endDate        DateTime
+  timeDiff       Int
+  year           Int
+  day            Int
+  month          Int
   TimeZoneId     String        @db.VarChar(200)
   task           Task?         @relation(fields: [taskId], references: [id])
   taskId         String?
@@ -77,3 +81,11 @@ model TimeTracker {
 
   @@map("timetrackers")
 }
+
+// Criar uma tabela 
+// data inicio 
+// data final 
+// diferença das datas
+// ano 
+// dia 
+// mes 
