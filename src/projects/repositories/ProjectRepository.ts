@@ -189,6 +189,18 @@ export class ProjectRepository implements IProjectRepository{
             delete_at: true,
             updated_at: true,
             description: true,
+            timetrackers: {
+              select: {
+                id: true,
+                TimeZoneId: true,
+                startDate: true,
+                endDate: true,
+                task: true,
+                taskId: true,
+                collaborator: true,
+                collaboratorId: true,
+              }
+            },
             collaborator: {
               select: {
                 id: true,
@@ -199,6 +211,18 @@ export class ProjectRepository implements IProjectRepository{
                 managers: true,
                 tasks: true,
                 taskId: true,
+                timetrackers: {
+                  select: {
+                    id: true,
+                    TimeZoneId: true,
+                    startDate: true,
+                    endDate: true,
+                    task: true,
+                    taskId: true,
+                    collaborator: true,
+                    collaboratorId: true,
+                  }
+                },
               }
             },
             project: true,
