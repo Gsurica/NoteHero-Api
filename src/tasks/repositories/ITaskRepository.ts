@@ -1,4 +1,5 @@
 import { Collaborator, Task } from "@prisma/client";
+import { UserIdDTO } from "src/collaborators/repositories/ICollabRepository";
 
 export type CreateTaskDTO = {
   task_name: string;
@@ -29,4 +30,5 @@ export interface ITaskRepository {
   findById({ task_id }: FindTaskDTO): Promise<Task>;
   createWithCollab({ task_name, project_id, description, collab_id }: CreateTaskDTO): Promise<Task>;
   updateTask({ newTaskName, newDescription, task_id, newCollab }: UpdateTaskDTO): Promise<Task>;
+  getAllTasks(): Promise<Task[]>;
 }

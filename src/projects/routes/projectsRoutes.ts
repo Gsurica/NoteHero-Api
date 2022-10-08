@@ -16,7 +16,6 @@ const editProject = new EditprojectController();
 import { celebrate, Joi, Segments } from "celebrate";
 
 projectsRoutes.use(userAuthenticated);
-
 projectsRoutes.post('/:user_id', 
   celebrate({
     [Segments.BODY]: Joi.object().keys({

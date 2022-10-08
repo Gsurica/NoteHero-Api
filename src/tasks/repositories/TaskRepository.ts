@@ -1,8 +1,14 @@
 import { Task } from "@prisma/client";
 import { CreateTaskDTO, DeleteTaskDTO, FindTaskDTO, ITaskRepository, UpdateTaskDTO } from "./ITaskRepository";
 import { database } from "../../shared/database";
+import { UserIdDTO } from "src/collaborators/repositories/ICollabRepository";
 
 export class TaskRepository implements ITaskRepository {
+
+  async getAllTasks(): Promise<Task[]> {
+    const tasks = await database.task.findMany();
+    return tasks;
+  }
 
    async updateTask({ newTaskName, newDescription, task_id, newCollab }: UpdateTaskDTO): Promise<Task> {
     const task = await database.task.update({
