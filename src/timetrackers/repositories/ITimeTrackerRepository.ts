@@ -23,6 +23,4 @@ export type GetDayHourDTO = {
 export interface ITimeTrackerRepository {
   create({ startDate, endDate, TimeZoneId, task_id, collaborator_id }: CreateTimeTrackerDTO): Promise<TimeTracker>;
   delete({ timetracker_id }: DeleteTimeTrackerDTO): Promise<void>;
-  getDayHours();
-  getMonthHours(): Promise<TimeTracker>;
 }

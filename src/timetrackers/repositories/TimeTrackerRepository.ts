@@ -4,20 +4,9 @@ import { database } from "../../shared/database";
 
 export class TimeTrackerRepository implements ITimeTrackerRepository {
 
-  /*
-
-    const groupUsers = await prisma.user.groupBy({
-      by: ['country'],
-        _sum: {
-          profileViews: true,
-        },
-      })
-
-  */
-
   async getDayHours() {
     const hours = await database.timeTracker.groupBy({
-      by: ['id', 'day', 'month', 'year'],
+      by: ['taskId', 'day', 'month', 'year'],
       _sum: {
         timeDiff: true,
       }
@@ -25,8 +14,24 @@ export class TimeTrackerRepository implements ITimeTrackerRepository {
     return hours;
   }
 
-  async getMonthHours(): Promise<TimeTracker> {
-    throw new Error("Method not implemented.");
+  async getMonthHours(){
+    const months = await database.timeTracker.groupBy({
+      by: ['taskId', 'month', 'year'],
+      _sum: {
+        timeDiff: true,
+      }
+    });
+    return months;
+  }
+
+  async getYearHours() {
+    const years = await database.timeTracker.groupBy({
+      by: ['taskId', 'year'],
+      _sum: {
+        timeDiff: true,
+      }
+    });
+    return years;
   }
 
   async create({ startDate, endDate, TimeZoneId, task_id, collaborator_id, year, day, month, timeDiff }: CreateTimeTrackerDTO): Promise<TimeTracker> {

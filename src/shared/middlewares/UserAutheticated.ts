@@ -3,15 +3,22 @@ import { Secret, verify } from 'jsonwebtoken';
 import auth from '../config/auth';
 import { Errors } from '../errors/Errors';
 
+type JwtPayload = {
+  id: string;
+}
+
 export const userAuthenticated = (request: Request, response: Response, next: NextFunction) => {
-  const authHeader = request.headers.authorization;
-  if(!authHeader) throw new Errors('Failed to verify token!', 500); 
-  const token = authHeader.replace('Bearer ', '');
+  const { authorization } = request.headers;
+  if(!authorization) throw new Errors('Failed to verify token!', 500);
+
+  const token = authorization.split(' ')[1];
+  
   try {
-    verify(token, auth.jwt.secret as Secret);
+    verify(token, process.env.JWT_SECRET);
     return next();
   } catch (error) {
-    console.log(error)
-    throw new Errors('invalid authentication token!', 500);
+    console.log(error);
   }
+
+
 }

@@ -20,11 +20,10 @@ export class LoginUserService {
   async execute({ username, password }: CreateLoginDTO): Promise<LoginResponse> {
     const user = await this.userRepository.findByUsername({ username });
     if(!user) throw new Errors('User not exists!', 404);
-    const confirmedPass = compare(password, user.password);
-    if(!confirmedPass) throw new Errors('password/email are incorrect!', 400);
-    const token = sign({}, auth.jwt.secret, {
-      expiresIn: auth.jwt.expiresIn,
-      subject: user.id
+    const confirmedPass = await compare(password, user.password);
+    if(!confirmedPass) throw new Errors('password/email are incorrect!', 401);
+    const token = sign({ id: user.id }, process.env.JWT_SECRET, {
+      expiresIn: '8h',
     });
     return {
       user,

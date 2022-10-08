@@ -4,12 +4,14 @@ import { routes } from './routes';
 import cors from 'cors';
 import { Request, Response, NextFunction } from 'express';
 import { Errors } from '../errors/Errors';
+import { errors } from 'celebrate';
 
 const app = express();
 
 app.use(cors());
 app.use(express.json());
 app.use(routes);
+app.use(errors());
 
 
 app.use(
