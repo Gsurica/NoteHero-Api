@@ -36,7 +36,7 @@ export class UserRepository implements IUserRepository {
   async findByUsername({ username }: FindUsernameDTO): Promise<User> {
     const user = await database.user.findUnique({
       where: {
-        username: username
+        username,
       }
     });
     return user;

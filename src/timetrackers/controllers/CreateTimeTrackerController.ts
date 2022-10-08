@@ -6,9 +6,11 @@ import Moment from "moment";
 export class CreateTimeTrackerController {
   async handle(request: Request, response: Response) {
     const createTimeTrackerService = new CreateTimeTrackerService(new TimeTrackerRepository());
+    const getHours = new TimeTrackerRepository();
+    const hours = await getHours.getDayHours();
     const { task_id } = request.params;
     const { startDate, endDate, TimeZoneId, collaborator_id } = request.body;
-    console.log(Moment(endDate, "DD/MM/YYYY hh:mm:ss"))
+    console.log(hours)
     const timeTracker = await createTimeTrackerService.execute({
       startDate: Moment(startDate, "DD/MM/YYYY hh:mm:ss").toDate(),
       endDate: Moment(endDate, "DD/MM/YYYY hh:mm:ss").toDate(),
@@ -22,6 +24,7 @@ export class CreateTimeTrackerController {
     });
     return response.status(201).json({
       timeTracker,
+      hours: hours
     });
   }
 }
